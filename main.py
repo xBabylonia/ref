@@ -9,7 +9,7 @@ init(autoreset=True)
 fake = Faker()
 
 def get_temp_email_address():
-    response = requests.get('https://api.mail.tm/domains')
+    response = requests.get('https://api.mail.gw/domains')
     if response.status_code != 200:
         print(Fore.RED + Style.BRIGHT + "Gagal mendapatkan domain email.")
         print(Fore.RED + Style.BRIGHT + "Respon:", response.text)
@@ -24,7 +24,7 @@ def get_temp_email_address():
     return email_address
 
 def create_temp_email(email_address):
-    response = requests.post('https://api.mail.tm/accounts', json={
+    response = requests.post('https://api.mail.gw/accounts', json={
         'address': email_address,
         'password': 'password123'
     })
@@ -36,7 +36,7 @@ def create_temp_email(email_address):
     return data.get('address'), 'password123', data.get('id')
 
 def get_access_token(email, password):
-    response = requests.post('https://api.mail.tm/token', json={
+    response = requests.post('https://api.mail.gw/token', json={
         'address': email,
         'password': password
     })
@@ -48,7 +48,7 @@ def get_access_token(email, password):
 
 def get_latest_email(token):
     headers = {'Authorization': f'Bearer {token}'}
-    response = requests.get('https://api.mail.tm/messages', headers=headers)
+    response = requests.get('https://api.mail.gw/messages', headers=headers)
     if response.status_code != 200:
         print(Fore.RED + Style.BRIGHT + "Gagal mendapatkan email terbaru.")
         print(Fore.RED + Style.BRIGHT + "Respon:", response.text)
